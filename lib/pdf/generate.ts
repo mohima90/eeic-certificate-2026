@@ -82,7 +82,7 @@ export async function generateCertificatePdf({
       ? (process.env.CHROME_EXECUTABLE_PATH ?? '/usr/bin/google-chrome')
       : await chromium.executablePath(),
     args: isLocal ? ['--no-sandbox', '--disable-setuid-sandbox'] : chromium.args,
-    headless: isLocal ? true : chromium.headless,
+    headless: true,
     defaultViewport: chromium.defaultViewport,
   })
 
