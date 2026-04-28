@@ -83,7 +83,6 @@ export async function generateCertificatePdf({
       : await chromium.executablePath(),
     args: isLocal ? ['--no-sandbox', '--disable-setuid-sandbox'] : chromium.args,
     headless: true,
-    defaultViewport: chromium.defaultViewport,
   })
 
   try {
