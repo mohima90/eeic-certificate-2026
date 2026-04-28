@@ -1,0 +1,16 @@
+{
+  "functions": {
+    "app/api/generate/download/route.ts": {
+      "memory": 1024,
+      "maxDuration": 60
+    },
+    "app/api/generate/route.ts": {
+      "memory": 1024,
+      "maxDuration": 60
+    },
+    "app/api/email/send-all/route.ts": {
+      "memory": 1024,
+      "maxDuration": 60
+    }
+  }
+}

@@ -6,13 +6,10 @@
  */
 
 import puppeteer from 'puppeteer-core'
+import chromium from '@sparticuz/chromium'
 import QRCode from 'qrcode'
 import { createServiceClient } from '@/lib/supabase/server'
 import type { Template, Enrollment } from '@/types/database'
-
-const CHROME_PATH =
-  process.env.CHROME_EXECUTABLE_PATH ??
-  '/usr/bin/google-chrome'
 
 interface GenerateOptions {
   enrollment: Enrollment & {
@@ -79,10 +76,14 @@ export async function generateCertificatePdf({
   })
 
   // ── 6. Render with puppeteer ──────────────────────────────────────────────
+  const isLocal = process.env.NODE_ENV === 'development'
   const browser = await puppeteer.launch({
-    executablePath: CHROME_PATH,
-    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-web-security'],
-    headless: true,
+    executablePath: isLocal
+      ? (process.env.CHROME_EXECUTABLE_PATH ?? '/usr/bin/google-chrome')
+      : await chromium.executablePath(),
+    args: isLocal ? ['--no-sandbox', '--disable-setuid-sandbox'] : chromium.args,
+    headless: isLocal ? true : chromium.headless,
+    defaultViewport: chromium.defaultViewport,
   })
 
   try {
